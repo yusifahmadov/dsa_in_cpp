@@ -30,7 +30,5 @@
 *.exe
 *.out
 *.app
-
-Reference/reference
-Pointer to Structure/pointer_to_structure
-cpp_concepts/Functions/functions
+cpp_concepts/Paremeter Passing Methods/parameter_passing_methods
+cpp_concepts/Paremeter Passing Methods/ptr_vs_ref
