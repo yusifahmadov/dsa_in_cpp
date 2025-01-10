@@ -32,11 +32,26 @@ double eR(int x, int n){
 
 }
 
+double eI(int x, int n){
+    double s = 1;
+    double num = 1;
+    double den = 1;
+
+    for (int i; i<=n; i++){
+        num*=x;
+        den*=i;
+        s+=num/den;
+    }
+
+    return s;
+
+}
+
 int main(int argc, char const *argv[])
 {
     
     
-    cout << e(1,10) <<endl;
+    cout << eI(1,10) <<endl;
 
     return 0;
 }
