@@ -65,7 +65,7 @@ class LinkedList{
 
 class Solution {
 public:
-    bool hasLoop(ListNode *head) {
+    bool hasLoop(Node *head) {
         
         Node* slow = head;
         Node* fast = head;

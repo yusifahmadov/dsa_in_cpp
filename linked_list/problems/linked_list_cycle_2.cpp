@@ -65,14 +65,14 @@ class LinkedList{
 
 class Solution {
 public:
-     Node *detectCycle(ListNode *head) {
+     Node *detectCycle(Node *head) {
             if(head == nullptr || head-> next == nullptr) return nullptr;
 
             Node* slow = head;
             Node* fast = head;
             Node* tempFast = nullptr;
             Node* detectedLoopNode = nullptr;
-            Node* prev 
+            Node* prev ;
             while(fast != nullptr || fast -> next != nullptr){
                 tempFast = fast;
                 
