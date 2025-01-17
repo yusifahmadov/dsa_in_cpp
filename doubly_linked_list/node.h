@@ -1,5 +1,6 @@
-#ifndef NODE_H
-#define NODE_H
+#ifndef DOUBLY_LINKED_LIST_NODE_H
+#define DOUBLY_LINKED_LIST_NODE_H
+
 
 class Node {
 public:

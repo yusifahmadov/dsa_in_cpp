@@ -1,178 +1,162 @@
-#include "node.cpp"
+#include "doubly_linked_list.h"
 #include <iostream>
+
 using namespace std;
-class DoublyLinkedList{
-    private:
-        Node* head;
-        Node* tail;
-        int length;
+DoublyLinkedList::DoublyLinkedList(int value) {
+    Node* newNode = new Node(value);
+    head = newNode;
+    tail = newNode;
+    length = 1;
+}
 
-    public:
-        DoublyLinkedList(int value){
-            Node* newNode = new Node(value);
-            head = newNode;
-            tail= newNode;
-            length = 1;
+void DoublyLinkedList::printList() {
+    Node* temp = head;
+    while (temp) {
+        std::cout << temp->value << std::endl;
+        temp = temp->next;
+    }
+}
+
+Node* DoublyLinkedList::getHead() {
+    return head;
+}
+
+void DoublyLinkedList::getTail() {
+    if (tail) {
+        std::cout << "Tail: " << tail->value << std::endl;
+    } else {
+        std::cout << "Tail is nullptr" << std::endl;
+    }
+}
+
+void DoublyLinkedList::getLength() {
+    std::cout << "Length: " << length << std::endl;
+}
+
+void DoublyLinkedList::append(int value) {
+    Node* newNode = new Node(value);
+    if (length == 0) {
+        head = newNode;
+        tail = newNode;
+    } else {
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
+    }
+    length++;
+}
+
+void DoublyLinkedList::deleteLast() {
+    if (length == 0) return;
+
+    Node* temp = tail;
+    if (length == 1) {
+        head = nullptr;
+        tail = nullptr;
+    } else {
+        tail = tail->prev;
+        tail->next = nullptr;
+    }
+    delete temp;
+    length--;
+}
+
+void DoublyLinkedList::prepend(int value) {
+    Node* newNode = new Node(value);
+    if (length == 0) {
+        head = newNode;
+        tail = newNode;
+    } else {
+        newNode->next = head;
+        head->prev = newNode;
+        head = newNode;
+    }
+    length++;
+}
+
+void DoublyLinkedList::deleteFirst() {
+    if (length == 0) return;
+
+    Node* temp = head;
+    if (length == 1) {
+        head = nullptr;
+        tail = nullptr;
+    } else {
+        head = head->next;
+        head->prev = nullptr;
+    }
+    delete temp;
+    length--;
+}
+
+Node* DoublyLinkedList::get(int index) {
+    if (index < 0 || index >= length) return nullptr;
+
+    Node* temp;
+    if (index < length / 2) {
+        temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp->next;
         }
-
-        void printList(){
-            Node* temp = head;
-
-            while(temp){
-                cout << temp -> value << endl;
-                temp = temp -> next;
-            }
+    } else {
+        temp = tail;
+        for (int i = length - 1; i > index; i--) {
+            temp = temp->prev;
         }
-        Node* getHead() {
-            return head;
-        }
+    }
+    return temp;
+}
 
-        void getTail() {
-            if (tail) {
-                cout << "Tail: " << tail->value << endl;
-            } else {
-                cout << "Tail is nullptr" << endl;
-            }
-        }
+bool DoublyLinkedList::set(int index, int value) {
+    Node* temp = get(index);
+    if (temp) {
+        temp->value = value;
+        return true;
+    }
+    return false;
+}
 
-        void getLength() {
-            cout << "Length: " << length << endl;
-        }
+bool DoublyLinkedList::insert(int index, int value) {
+    if (index < 0 || index > length) return false;
 
-        void append(int value){
-            
-            Node* newNode = new Node(value);
-            if(length == 0){
-                head = newNode;
-                tail = newNode;
-            }else{
-              
+    if (index == 0) {
+        prepend(value);
+        return true;
+    }
+    if (index == length) {
+        append(value);
+        return true;
+    }
 
-                tail -> next = newNode;
-                newNode -> prev = tail;
-                tail = newNode;
-            }
-            
-            length ++;
-        }
+    Node* newNode = new Node(value);
+    Node* temp = get(index - 1);
 
-        void deleteLast(){
-            Node* temp = tail ;
+    newNode->next = temp->next;
+    newNode->prev = temp;
+    temp->next->prev = newNode;
+    temp->next = newNode;
 
-            if(length == 0) return;
+    length++;
+    return true;
+}
 
-            if(length == 1) {
-                head = nullptr;
-                tail = nullptr;
-            }else{
-                tail = tail -> prev;
-                tail -> next = nullptr;
+void DoublyLinkedList::deleteNode(int index) {
+    if (index < 0 || index >= length) return;
 
-                
+    if (index == 0) {
+        deleteFirst();
+        return;
+    }
+    if (index == length - 1) {
+        deleteLast();
+        return;
+    }
 
-            }
-            delete temp;
-            length--;
-        }
+    Node* temp = get(index);
 
-        void prepend(int value){
-            Node* newNode = new Node(value);
-            if(length == 0){
-                head = newNode;
-                tail = newNode;
-            }else{
-                newNode -> next = head;
-                head -> prev = newNode;
-                head = newNode;
-            }
+    temp->prev->next = temp->next;
+    temp->next->prev = temp->prev;
 
-            length++;
-        }
-
-        void deleteFirst(){
-            Node* temp = head;
-            if(length == 0) return;
-            if(length == 1){
-                head = nullptr;
-                tail = nullptr;
-            }else{
-                
-                head = head -> next;
-                head -> prev = nullptr
-            }
-
-            delete temp;
-            length--;
-        }
-
-        Node* get(int index){
-            if(index< 0 || index >=length)return nullptr;
-            Node* temp = head;
-            if(index < length/2){
-                for(int i =0; i<index; i++){
-                temp = temp->next;
-            }    
-            }else{
-                temp= tail;
-                for(int i =length-1; i> index; i--){
-                temp = temp->prev;
-            }
-            }
-            
-            return temp;
-        }
-
-        bool set(int index, int value){
-            Node* temp = get(index);
-            if(temp){
-                temp -> value = value;
-                return true;
-            }
-
-            return false;
-
-        }
-
-        bool insert(int index, int value){
-            if(index < 0 || index > length) return false;
-            if(index == 0){
-                prepend(value);
-                return true;
-            }
-            if(index == length){
-                append(value);
-                return true;
-            }
-            Node* newNode = new Node(value);
-            Node* temp = get(index-1);
-            Node* temp2 = temp->next;
-            temp -> next =newNode;
-            newNode -> prev = temp;
-            newNode-> next = temp2;
-            temp2 -> prev = temp;
-
-            length ++;
-            return true;
-        }
-
-        void deleteNode(int index){
-            if(index < 0 || index > length) return; 
-             if(index ==0) return deleteFirst();
-            if(index == length-1) return deleteLast();
-            Node* current = get(index);
-            current -> next -> prev = current->prev;
-            current -> prev -> next = temp -> prev;
-
-            delete temp;
-            length--;
-
-
-
-        }
-
-};
-
-int main(int argc, char const *argv[])
-{
-    return 0;
+    delete temp;
+    length--;
 }

@@ -5,11 +5,12 @@
 
 class LinkedList {
 private:
-    Node* head;
+    
     Node* tail;
     int length;
 
 public:
+    Node* head;
     LinkedList(int value);
     ~LinkedList();
 
