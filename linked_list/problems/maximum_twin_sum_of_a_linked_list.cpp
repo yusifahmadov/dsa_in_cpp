@@ -33,7 +33,7 @@ public:
             }
         }
 
-        return twinSums2[0] + twinSums1[0];
+        return maxSum;
     }
 };
 
