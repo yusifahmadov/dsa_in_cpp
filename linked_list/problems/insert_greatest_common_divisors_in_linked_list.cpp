@@ -14,6 +14,7 @@ public:
         Node *prev = head;
         Node *current = head->next;
         int greatestDivisor = 0;
+
         while (current)
         {
 
