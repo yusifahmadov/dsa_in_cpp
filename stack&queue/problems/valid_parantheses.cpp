@@ -7,12 +7,36 @@ class Solution
 public:
     bool isValid(string s)
     {
-        Stack *stack = new Stack(s[0]);
 
-        for (int i = 1; i < s.size(); i++)
-        {
-            stack->push(s[i]);
+       stack<char> v_stack;
+
+
+        for(char c: s){
+            if(c == '(' || c == '[' || c=='{'){
+                v_stack.push(c);
+            }else if(c == ')' ){
+                if(v_stack.empty() || (v_stack.top() != '(')){
+                    return false;
+                }else{
+                    v_stack.pop();
+                }
+            }else if(c == '}' ){
+                if(v_stack.empty() || (v_stack.top() != '{')){
+                    return false;
+                }else{
+                    v_stack.pop();
+                }
+            }
+            else if(c == ']' ){
+                if(v_stack.empty() || (v_stack.top() != '[')){
+                    return false;
+                }else{
+                    v_stack.pop();
+                }
+            }
         }
+
+        return v_stack.size() == 0;
     }
 };
 
